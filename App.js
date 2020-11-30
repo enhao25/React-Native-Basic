@@ -15,8 +15,11 @@ export default function App() {
   const addGoalHandler = () => {
     // ...courseGoals returns the previous array values and hence allow us to add new value to the array
     // Using the courseGoals => allows us to confirm that we are always getting the latest state before update
-    setCourseGoals(courseGoals => [...courseGoals, enteredGoal]);
-    setEnteredGoal("");
+    setCourseGoals(courseGoals => 
+      [...courseGoals, {key: Math.random().toString(), value: enteredGoal}]
+    );
+    // setCourseGoals([]);
+    // setEnteredGoal("");
     // console.log(courseGoals);
   }
 
@@ -32,15 +35,13 @@ export default function App() {
         <Button title="ADD" onPress={addGoalHandler} />
       </View>
       <View>
-        <ScrollView>
-          {courseGoals.map((goal) => 
-            <View key={goal} style={styles.listItem}>
-              <Text>
-                {goal}
-              </Text>
-            </View>
-          )}
-        </ScrollView>
+        <FlatList data={courseGoals} renderItem={itemData => (
+          <View style={styles.listItem}>
+            <Text>
+              {itemData.item.value}
+            </Text>
+          </View>
+        )} />
       </View>
     </View>
   );
@@ -49,7 +50,7 @@ export default function App() {
 const styles = StyleSheet.create({
   screen: {
     padding: 50,
-    top: 50
+    marginTop: 20
   },
   inputContainer: {
     flexDirection: 'row', 
