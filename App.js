@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, ScrollView, FlatList } from 'react-native';
 
 export default function App() {
 
@@ -14,9 +14,10 @@ export default function App() {
 
   const addGoalHandler = () => {
     // ...courseGoals returns the previous array values and hence allow us to add new value to the array
-    // Using the currentGoals => allows us to confirm that we are always getting the latest state before update
-    setCourseGoals(currentGoals => [...courseGoals, enteredGoal])
-    // console.log(enteredGoal);
+    // Using the courseGoals => allows us to confirm that we are always getting the latest state before update
+    setCourseGoals(courseGoals => [...courseGoals, enteredGoal]);
+    setEnteredGoal("");
+    // console.log(courseGoals);
   }
 
   return (
@@ -31,7 +32,15 @@ export default function App() {
         <Button title="ADD" onPress={addGoalHandler} />
       </View>
       <View>
-        
+        <ScrollView>
+          {courseGoals.map((goal) => 
+            <View key={goal} style={styles.listItem}>
+              <Text>
+                {goal}
+              </Text>
+            </View>
+          )}
+        </ScrollView>
       </View>
     </View>
   );
@@ -52,5 +61,12 @@ const styles = StyleSheet.create({
     borderColor: 'black', 
     borderWidth: 1, 
     padding: 10
+  },
+  listItem: {
+    padding: 10,
+    marginVertical: 10,
+    backgroundColor: '#ccc',
+    borderColor: 'black',
+    borderWidth: 1
   }
 });
